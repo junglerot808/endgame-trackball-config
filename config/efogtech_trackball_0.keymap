@@ -18,7 +18,7 @@
 #define LAYER_USER 5
 
 #define SCROLL_MULTIPLIER 1
-#define SCROLL_DIVISOR 40
+#define SCROLL_DIVISOR 3
 #define TWIST_SCROLL_MULTIPLIER 1
 #define TWIST_SCROLL_DIVISOR 20
 
@@ -33,14 +33,15 @@
 			display-name = "Default";
 			DECLARE_ENCODERS;
 			bindings = <
-				&kp LG(LS(M))                      &mkp MCLK
-				&ltmkp LAYER_EXTRAS LC(DOWN)       &mkp LCLK
-				&ltmkp LAYER_SCROLL LC(UP_ARROW) 	 &mkp RCLK
-				&ltm   LAYER_SNIPE MB4             &ltm LAYER_DEVICE MB5
+				// buttons
+				&ltmkp LAYER_SNIPE ENTER  &ltmkp LAYER_SCROLL ESC
+				&mkp MCLK                 &kp DELETE
+				&mkp LCLK                 &mkp RCLK
+				&ltm LAYER_EXTRAS MB4     &ltm LAYER_DEVICE MB5
 
 				// rotary encoders
-				&kp C_VOL_UP              &kp C_BRI_UP
-				&kp C_VOL_DN              &kp C_BRI_DN
+				&kp C_VOL_UP              &kp LC(TAB)
+				&kp C_VOL_DN              &kp LC(LS(TAB))
 			>;
 		};
 
@@ -48,13 +49,13 @@
 			display-name = "Extras";
 			DECLARE_ENCODERS;
 			bindings = <
-				&kp LG(C)   &kp LG(V)
-				&trans      &kp LG(Z)
-				&kp LG(X)   &kp LG(C)
-				&kp LG(Z)   &kp LG(V)
+				&kp LC(C)      &kp LC(V)
+				&kp LC(X)      &kp LC(Z)
+				&kp LC(Z)      &kp LC(C)
+				&trans         &kp LC(V)
 
-				&kp C_VOL_UP   &kp C_BRI_UP
-				&kp C_VOL_DN   &kp C_BRI_DN
+				&kp C_VOL_UP   &kp LC(TAB)
+				&kp C_VOL_DN   &kp LC(LS(TAB))
 			>;
 		};
 
@@ -67,8 +68,8 @@
 				&rgb_tog           &bt BT_PRV
 				&studio_unlock     &trans
 
-				&kp C_VOL_UP       &kp C_BRI_UP
-				&kp C_VOL_DN       &kp C_BRI_DN
+				&kp C_VOL_UP       &kp LC(TAB)
+				&kp C_VOL_DN       &kp LC(LS(TAB))
 			>;
 		};
 
@@ -76,10 +77,10 @@
 			display-name = "Scroll";
 			DECLARE_ENCODERS;
 			bindings = <
-			  &trans              &rrl 1
-			  &trans              &scrlsens P2SM_INC 1
-			  &trans              &scrlsens P2SM_DEC 1
-			  &sens P2SM_DEC 1    &sens P2SM_INC 1
+			    &trans              &trans
+			    &trans              &scrlsens P2SM_INC 1
+			    &rrl 1              &scrlsens P2SM_DEC 1
+			    &sens P2SM_DEC 1    &sens P2SM_INC 1
 
 				&sens P2SM_DEC 1    &scrlsens P2SM_INC 1
 				&sens P2SM_INC 1    &scrlsens P2SM_DEC 1
@@ -109,19 +110,18 @@
 				&trans        &trans
 				&trans        &trans
 
-				&kp C_VOL_UP  &kp C_BRI_UP
-				&kp C_VOL_DN  &kp C_BRI_DN
+				&kp C_VOL_UP  &kp LC(TAB)
+				&kp C_VOL_DN  &kp LC(LS(TAB))
 		    >;
 		};
 	};
 
 	trackball {
-		input-processors = <&zip_scroll_scaler TWIST_SCROLL_MULTIPLIER TWIST_SCROLL_DIVISOR>;
-
 		scroll {
 			layers = <LAYER_SCROLL>;
 			input-processors = <&zip_xy_scaler SCROLL_MULTIPLIER SCROLL_DIVISOR>, <&zip_axis_clamper>,
 							   <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>;
+								<&zip_scroll_scaler TWIST_SCROLL_MULTIPLIER TWIST_SCROLL_DIVISOR>;
 		};
 
 		snipe {
